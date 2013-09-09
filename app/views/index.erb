@@ -1,0 +1,15 @@
+
+<form action='/' method='post'>
+  <label for="user">Twitter Handle</label><input type="text" name="user"></input>
+  <input type="Submit" name='submit'>
+</form>
+
+<br>
+
+<% @all_users.each do |a| %>
+  <ul>
+    <a href ="/<%=a.handle%>"><%= a.handle %></a>
+
+    </ul>
+  </ul>
+<% end %>
