@@ -17,6 +17,6 @@ class User < ActiveRecord::Base
 
   def stale?
     p Time.new - (60*60*24)
-    self.tweets.nil? ||  self.tweets.order('created_at DESC')[0].created_at < Time.new - (60*60)
+    self.tweets.nil? ||  self.tweets.order('created_at DESC')[0].created_at < Time.new - (60)
   end
 end

@@ -1,7 +1,45 @@
-$(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
+function getTweets () {
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+  userHandle = $('span').text();
+  console.log(userHandle);
+
+  // user={}
+
+  $.ajax({
+    url: '/fetch',
+    type: 'Post',
+    data: {user: userHandle},
+    dataType: 'json',
+    beforeSend: function () {
+      $('.container img').addClass('visible');
+    }
+  })
+  .done(function(response) {
+    
+    $('.container img').removeClass('visible');
+
+    $.each(response, function(){
+      console.log(this);
+      console.log(this.tweet.content);
+      $('<li>'+this.tweet.content+'</li>').appendTo('ul');
+
+    });
+
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+  
+}
+
+
+
+$(document).ready(function() {
+
+    getTweets();
+
+
 });

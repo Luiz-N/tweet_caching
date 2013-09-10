@@ -12,12 +12,15 @@ get '/:user' do
   # user = 
   @user = User.find_by_handle(params[:user])
 
-  @user.fetch_tweets if @user.stale?
-  @tweets = @user.tweets
-  
-  p @tweets.count
-  erb :user_tweets
 
+  if @user.stale?
+    # @user.fetch_tweets
+    @user
+    erb :user_tweets_ajax
+  else
+    @tweets = @user.tweets
+    erb :user_tweets
+  end
 end
 
 
@@ -25,4 +28,13 @@ post '/' do
   @user = User.find_or_create_by_handle(params[:user])
 
   redirect '/'
+end
+
+post '/fetch' do
+  p params["user"]
+  @user = User.find_or_create_by_handle(params["user"])
+  @user.fetch_tweets
+  @user.tweets.to_json
+  
+
 end
